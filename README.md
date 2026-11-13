@@ -1,69 +1,67 @@
-# Tokenizer — 42 Token
+# Tokenizer — 42 Token (42TK)
 
-An educational ERC-20 token for the 42 Tokenizer project. It demonstrates how
-to create a fixed supply, transfer tokens, and authorize another address to
-spend a limited amount. The token does not represent a claim on money or goods.
+## Overview
 
-## Token
+An educational ERC-20 token for the 42 Tokenizer project, deployed on Ethereum
+Sepolia using Remix and MetaMask. The bonus adds a separate multisig contract
+for transfers that require several owners' approval.
+
+## Features
 
 | Property | Value |
-| --- | --- |
-| Name | 42 Token |
-| Symbol / ticker | 42TK |
-| Contract name | Token42 |
+|---|---|
+| Name / symbol | 42 Token / 42TK |
 | Standard | ERC-20 |
-| Initial supply | 1,000,000 42TK |
+| Initial supply | 1,000,000 tokens, assigned to the deployer |
 | Decimals | 18 |
-| Initial recipient | The address deploying the contract |
-| Network | Ethereum Sepolia testnet |
+| Network | Sepolia, chain ID `11155111` |
+| Token permissions | No administrator or public mint/burn function |
+| Bonus | Two confirmations from owners other than the request's submitter |
 
-## Technical choices
+## Why these choices
 
-- **Ethereum:** supports programmable tokens and the ERC-20 standard, with
-  compatible wallets and blockchain explorers. The subject also permits other
-  platforms, such as BNB Smart Chain; this project uses Ethereum's ecosystem.
-- **Sepolia:** lets us demonstrate deployment and transfers using test ETH for
-  fees. No mainnet deployment or real-money purchase is required. See
-  [Ethereum's network documentation](https://ethereum.org/developers/docs/networks/).
-- **Solidity:** targets the Ethereum Virtual Machine and supports the contract
-  inheritance used by this token.
-- **OpenZeppelin Contracts 5.4.0:** supplies the ERC-20 implementation instead of
-  rewriting balance, transfer, and allowance logic. The import pins the version.
-- **Remix:** provides compilation, a simulated blockchain, and wallet-connected
-  deployment from a browser, suitable for demonstrating the project.
-- **Fixed supply:** creates all tokens during construction and gives the
-  deployed contract no public way to mint additional tokens.
+- **Ethereum / ERC-20:** a standard interface understood by wallets and explorers.
+- **Solidity:** supports Ethereum contracts and inheritance.
+- **OpenZeppelin 5.4.0:** reuses its ERC-20 balance, transfer and allowance logic;
+  the import pins the dependency version.
+- **Sepolia:** allows deployment and testing with test ETH, without real money.
+- **Remix / MetaMask:** compile and deploy from the browser, then sign actions
+  with the selected wallet account.
+- **Fixed supply:** the constructor creates all tokens once; there is no
+  administrator able to create more afterward.
+- **Separate multisig:** several owners control tokens deposited at its address.
+  Token42 continues to record balances and process transfers normally.
 
-## Repository
+## Deployments
 
-| Path | Contents |
-| --- | --- |
-| [code/Tokenizer.sol](code/Tokenizer.sol) | Token contract source |
-| `deployment/` | Deployment setup, instructions, and network records; pending |
-| [documentation/token-design.md](documentation/token-design.md) | Purpose, behavior, units, and permissions |
-| `tokenizer.pdf` | Project subject |
+| Contract | Sepolia address |
+|---|---|
+| Token42 used for the bonus | [`0x8Af0e1120c5E9ba868C4a1d8b5e07D1900eaA12E`](https://sepolia.etherscan.io/address/0x8Af0e1120c5E9ba868C4a1d8b5e07D1900eaA12E) |
+| MultiSigWallet | [`0x4bb0EF8b7a588DA016B563be3961d9b11897D780`](https://sepolia.etherscan.io/address/0x4bb0EF8b7a588DA016B563be3961d9b11897D780) |
 
-## Existing deployment — details pending
+## Project structure
 
-The token has been deployed and transfers have been performed on Sepolia.
-Before submission, record the full contract address, explorer link, and
-deployment transaction here. The repository source must also be checked against
-that deployment; this match has not yet been established.
+```text
+Tokenizer/
+├── code/
+│   ├── Tokenizer.sol
+│   └── multisig.sol
+├── deployment/
+│   └── README.md
+├── documentation/
+│   ├── README.md
+│   └── MULTISIG.md
+└── README.md
+```
 
-Record the actual compiler version, optimizer settings, and EVM target in
-`deployment/`. The Solidity pragma specifies compatible compiler versions, not
-the exact version used for an existing deployment.
+## Documentation
 
-For evaluation, prepare a repeatable deployment and demonstrate token actions.
-A new deployment creates a separate token instance at a new address, even when
-the name and symbol are identical.
+- [Mandatory: token behaviour and demonstration](documentation/README.md)
+- [Bonus: multisig behaviour and demonstration](documentation/MULTISIG.md)
+- [Deploy both contracts with Remix](deployment/README.md)
 
-Never commit private keys, seed phrases, passwords, or secret API keys.
+## Project goal
 
-## Remaining work
-
-- Record and check the existing Sepolia deployment.
-- Add reproducible deployment instructions and the required setup files.
-- Add usage instructions and a demonstration checklist.
-- Commit the completed files to the submission repository.
-- Consider the optional multisig bonus after completing the mandatory part.
+Learn how token balances, wallet signatures, allowances and shared approvals
+work on a public test blockchain. 42TK is an educational asset with no promised
+monetary value. Transaction fees are paid in Sepolia ETH, not in 42TK.
