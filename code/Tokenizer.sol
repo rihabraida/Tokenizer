@@ -2,6 +2,7 @@
  // SPDX-License-Identifier: MIT
  pragma solidity ^0.8.20;
 
+ // Reuse standard ERC-20 balances, transfers and allowances.
  import "@openzeppelin/contracts@5.4.0/token/ERC20/ERC20.sol";
 
  /**
@@ -14,6 +15,7 @@
      // Initial supply expressed in whole tokens.
      uint256 public constant INITIAL_SUPPLY = 1_000_000;
 
+     // Runs once; msg.sender is the account deploying the token.
      constructor() ERC20("42 Token", "42TK") {
          // Convert whole tokens into ERC-20 base units.
          _mint(
